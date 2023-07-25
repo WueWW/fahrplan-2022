@@ -1,0 +1,113 @@
+{
+  "$id": "https://wueww.github.io/fahrplan-schema/fahrplan.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WueWW Fahrplan Schema",
+  "type": "object",
+  "properties": {
+    "format": {
+      "type": "string",
+      "description": "Schema Version number, currently 0.5.0; semantic versioning applies"
+    },
+    "sessions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "start",
+          "end",
+          "cancelled",
+          "onlineOnly",
+          "host",
+          "title"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier of the session"
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              { "type": "null", "description": "the session is open-ended" }
+            ]
+          },
+          "cancelled": {
+            "type": "boolean",
+            "description": "whether the event has been cancelled explicitly; users may wish to display the information stroked out or else as applicable"
+          },
+          "onlineOnly": {
+            "type": "boolean",
+            "description": "whether the event is online only; online only events do not have location information"
+          },
+          "host": {
+            "type": "object",
+            "required": ["id", "name"],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Unique identifier of the session"
+              },
+              "name": { "type": "string" },
+              "infotext": { "type": "string" },
+              "logo": { "type": "string" },
+              "links": {
+                "type": "object",
+                "properties": {
+                  "host": { "type": "string" },
+                  "facebook": { "type": "string" },
+                  "twitter": { "type": "string" },
+                  "youtube": { "type": "string" },
+                  "instagram": { "type": "string" },
+                  "xing": { "type": "string" },
+                  "linkedIn": { "type": "string" }
+                }
+              }
+            }
+          },
+          "title": { "type": "string" },
+          "location": {
+            "type": "object",
+            "required": ["name", "streetNo", "zipcode", "city"],
+            "properties": {
+              "name": { "type": "string" },
+              "streetNo": { "type": "string" },
+              "zipcode": { "type": "string" },
+              "city": { "type": "string" },
+              "lat": {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90
+              },
+              "lng": {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180
+              }
+            }
+          },
+          "description": {
+            "type": "object",
+            "properties": {
+              "short": { "type": "string" },
+              "long": { "type": "string" }
+            }
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "event": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

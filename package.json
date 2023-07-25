@@ -1,0 +1,13 @@
+{
+  "name": "wueww-fahrplan-2019",
+  "version": "0.0.1",
+  "description": "WueWW Fahrplan 2019",
+  "license": "CC0-1.0",
+  "dependencies": {
+    "jsonschema": "^1.2.4"
+  },
+  "scripts": {
+    "test": "node validate.js",
+    "dup-check": "grep -e 'key' sessions.json  | sort | uniq -c | awk '{ if ($1 != 1) { print $0 } }'"
+  }
+}
