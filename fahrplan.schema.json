@@ -5,8 +5,12 @@
   "type": "object",
   "properties": {
     "format": {
-      "type": "string",
-      "description": "Schema Version number, currently 0.5.0; semantic versioning applies"
+      "const": "0.5.2",
+      "description": "Schema Version number, currently 0.5.2; semantic versioning applies"
+    },
+    "channels": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/channel" }
     },
     "sessions": {
       "type": "array",
@@ -17,6 +21,7 @@
           "start",
           "end",
           "cancelled",
+          "highlight",
           "onlineOnly",
           "host",
           "title"
@@ -43,6 +48,10 @@
             "type": "boolean",
             "description": "whether the event has been cancelled explicitly; users may wish to display the information stroked out or else as applicable"
           },
+          "highlight": {
+            "type": "boolean",
+            "description": "whether the event has been flagged as highlight"
+          },
           "onlineOnly": {
             "type": "boolean",
             "description": "whether the event is online only; online only events do not have location information"
@@ -62,13 +71,16 @@
                 "type": "object",
                 "properties": {
                   "host": { "type": "string" },
+                  "jobs": { "type": "string" },
                   "facebook": { "type": "string" },
                   "twitter": { "type": "string" },
                   "youtube": { "type": "string" },
                   "instagram": { "type": "string" },
                   "xing": { "type": "string" },
-                  "linkedIn": { "type": "string" }
-                }
+                  "linkedIn": { "type": "string" },
+                  "fediverseUrl": { "type": "string" }
+                },
+                "additionalProperties": false
               }
             }
           },
@@ -91,23 +103,43 @@
                 "minimum": -180,
                 "maximum": 180
               }
-            }
+            },
+            "additionalProperties": false
           },
           "description": {
             "type": "object",
             "properties": {
               "short": { "type": "string" },
               "long": { "type": "string" }
-            }
+            },
+            "additionalProperties": false
           },
           "links": {
             "type": "object",
             "properties": {
               "event": { "type": "string" }
-            }
+            },
+            "additionalProperties": false
+          },
+          "channel": {
+            "$ref": "#/definitions/channel"
           }
-        }
+        },
+        "additionalProperties": false
       }
+    }
+  },
+  "additionalProperties": false,
+  "required": ["format", "channels", "sessions"],
+  "definitions": {
+    "channel": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "name": { "type": "string" }
+      },
+      "required": ["id", "name"],
+      "additionalProperties": false
     }
   }
 }
